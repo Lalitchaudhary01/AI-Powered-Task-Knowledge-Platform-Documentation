@@ -1,9 +1,12 @@
 import "./App.css";
+import Auth from "./components/auth/auth";
 
 function App() {
   return (
     <>
-      <div className="text-3xl font-bold underline">hii</div>
+      <div className="">
+        <Auth />
+      </div>
     </>
   );
 }
