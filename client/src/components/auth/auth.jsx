@@ -3,49 +3,54 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true); // toggle state
+  const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       if (isLogin) {
-        // Login logic
+        // ✅ Login request
         const response = await axios.post(
           "http://localhost:5000/api/auth/login",
+          { email, password },
           {
-            email,
-            password,
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
           }
         );
-        console.log("Login successful:", response.data);
+
+        localStorage.setItem("token", response.data.token);
         alert("Login successful ✅");
+        navigate("/");
       } else {
-        // Register logic
+        // ✅ Register request
         const response = await axios.post(
           "http://localhost:5000/api/auth/register",
+          { name, email, password, confirmPassword },
           {
-            name,
-            email,
-            password,
-            confirmPassword,
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
           }
         );
-        console.log("Registration successful:", response.data);
+
         alert("Registration successful ✅");
+        navigate("/verify-otp");
       }
     } catch (error) {
       console.error(
         "Auth error:",
         error.response ? error.response.data : error.message
       );
-      alert("Something went wrong ❌");
+      alert(error.response?.data?.message || "Something went wrong ❌");
     }
   };
 
@@ -57,7 +62,6 @@ const Auth = () => {
         </h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
-          {/* Name only for Register */}
           {!isLogin && (
             <>
               <Label htmlFor="name" className="text-black">
@@ -95,7 +99,6 @@ const Auth = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {/* Confirm Password only for Register */}
           {!isLogin && (
             <>
               <Label htmlFor="confirmPassword" className="text-black">

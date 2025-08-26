@@ -12,7 +12,7 @@ const {
 
 // public routes
 router.post("/register", register);
-router.post("/verify-email", verifyOtp); // ✅ match karega
+router.post("/verify-otp", verifyOtp); // ✅ match karega
 router.post("/login", login);
 
 // protected routes
