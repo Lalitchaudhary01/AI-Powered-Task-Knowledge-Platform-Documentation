@@ -12,7 +12,7 @@ function App() {
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/verify-otp" element={<VerifyOtp />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
           </Routes>
         </div>
       </Router>

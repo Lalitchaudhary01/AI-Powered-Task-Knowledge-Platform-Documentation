@@ -23,14 +23,13 @@ const Auth = () => {
           "http://localhost:5000/api/auth/login",
           { email, password },
           {
-            headers: { "Content-Type": "application/json" },
             withCredentials: true,
           }
         );
 
         localStorage.setItem("token", response.data.token);
         alert("Login successful ✅");
-        navigate("/");
+        navigate("/home");
       } else {
         // ✅ Register request
         const response = await axios.post(
